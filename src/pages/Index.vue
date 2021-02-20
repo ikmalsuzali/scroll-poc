@@ -44,8 +44,11 @@
       />
     </div>
     <div class="column" style="flex: 1">
-      <q-scroll-area ref="scrollArea" style="width: 100%; height: 600px">
-        <div style="font-size: 50px">
+      <q-scroll-area
+        ref="scrollArea"
+        style="width: 100%; height: 600px; background-color: black"
+      >
+        <div style="font-size: 50px; color: white">
           {{ text }}
         </div>
       </q-scroll-area>
@@ -83,7 +86,7 @@ export default {
       this.scrollTimeInterval = setInterval(() => {
         scrollAreaDivRef.scrollTo(0, this.currentScrollLocation);
         this.currentScrollLocation += this.scrollSpeed;
-        
+
         if (this.currentScrollLocation > scrollHeight - refContainerHeight) {
           this.stopScrolling();
         }
