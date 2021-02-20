@@ -82,9 +82,8 @@ export default {
 
       this.scrollTimeInterval = setInterval(() => {
         scrollAreaDivRef.scrollTo(0, this.currentScrollLocation);
-
         this.currentScrollLocation += this.scrollSpeed;
-
+        
         if (this.currentScrollLocation > scrollHeight - refContainerHeight) {
           this.stopScrolling();
         }
@@ -93,7 +92,6 @@ export default {
     stopScrolling() {
       this.isScrollStarted = false;
       clearInterval(this.scrollTimeInterval);
-      // scrollAreaDivRef.scrollTop(0);
     },
     decreaseScrollSpeed() {
       if (
