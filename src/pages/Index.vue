@@ -1,48 +1,54 @@
 <template>
-  <q-page class="q-pa-lg">
-    <div class="row full-width q-col-gutter-md justify-center">
-      here is the text we want to scroll
-      <q-input
-        v-model="text"
-        class="full-width full-height"
-        filled
-        type="textarea"
-      />
+  <q-page class="" style="scroll-behavior: smooth; overflow: hidden">
+    <div ref="textLayout" class="column full-width">
+      <div class="row full-width q-col-gutter-md justify-center">
+        here is the text we want to scroll
+        <q-input
+          v-model="text"
+          class="full-width full-height"
+          filled
+          type="textarea"
+        />
+      </div>
     </div>
-    <div class="row q-mt-xl justify-center">
-      <q-btn
-        class="q-mx-lg"
-        color="primary"
-        size="lg"
-        label="Slower"
-        @click="decreaseScrollSpeed"
-        icon="arrow_circle_down"
-      />
-      <q-btn
-        v-if="!isScrollStarted"
-        color="primary"
-        size="lg"
-        label="start"
-        @click="startScrolling"
-      />
-      <q-btn
-        v-else="isScrollStarted"
-        color="primary"
-        size="lg"
-        label="Stop"
-        @click="stopScrolling"
-      />
-      <q-btn
-        class="q-mx-lg"
-        color="primary"
-        size="lg"
-        label="Faster"
-        @click="increaseScrollSpeed"
-        icon-right="arrow_circle_up"
-      />
+
+    <div ref="btnLayout" class="column ">
+      <div class="row q-mt-xl justify-center q-pa-lg">
+        <q-btn
+          class="q-mx-lg"
+          color="primary"
+          size="lg"
+          label="Slower"
+          @click="decreaseScrollSpeed"
+          icon="arrow_circle_down"
+        />
+        <q-btn
+          v-if="!isScrollStarted"
+          color="primary"
+          size="lg"
+          label="start"
+          @click="startScrolling"
+        />
+        <q-btn
+          v-else="isScrollStarted"
+          color="primary"
+          size="lg"
+          label="Stop"
+          @click="stopScrolling"
+        />
+        <q-btn
+          class="q-mx-lg"
+          color="primary"
+          size="lg"
+          label="Faster"
+          @click="increaseScrollSpeed"
+          icon-set="material-icons"
+          icon-right="arrow_circle_up"
+        />
+      </div>
     </div>
-    <div class="row">
-      <q-scroll-area ref="scrollArea" style="width: 100%; height: 620px">
+    <div class="column" style="flex: 1">
+      <q-scroll-area class="column" ref="scrollArea" style="width: 100%;">
         <div style="font-size: 50px">
           {{ text }}
         </div>
@@ -67,6 +73,8 @@ export default {
       scrollTimeInterval: null
     };
   },
+  mounted() {},
+
   methods: {
     startScrolling() {
       this.isScrollStarted = true;
@@ -75,8 +83,17 @@ export default {
 
       this.currentScrollLocation = this.$refs.scrollArea.scrollPosition;
 
-      this.scrollTimeInterval = setInterval(() => {},
-      this.scrollIntervalTimeMs);
+      this.scrollTimeInterval = setInterval(() => {
+        this.$refs.scrollArea?.$el
+          .querySelector("div")
+          .scrollTo(0, this.currentScrollLocation);
+        this.currentScrollLocation =
+          this.currentScrollLocation + this.scrollSpeed;
+
+        if (this.currentScrollLocation > height) {
+          this.stopScrolling();
+        }
+      }, this.scrollIntervalTimeMs);
     },
     stopScrolling() {
       this.isScrollStarted = false;
@@ -96,3 +113,9 @@ export default {
   }
 };
 </script>
+
+<style>
+body {
+  scroll-behavior: smooth;
+}
+</style>
