@@ -1,6 +1,6 @@
 <template>
-  <q-page class="" style="scroll-behavior: smooth; overflow: hidden">
-    <div ref="textLayout" class="column full-width">
+  <q-page>
+    <div class="column full-width">
       <div class="row full-width q-col-gutter-md justify-center">
         here is the text we want to scroll
         <q-input
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div ref="btnLayout" class="column ">
+    <div class="column ">
       <div class="row q-mt-xl justify-center q-pa-lg">
         <q-btn
           class="q-mx-lg"
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="column" style="flex: 1">
-      <q-scroll-area class="column" ref="scrollArea" style="width: 100%;">
+      <q-scroll-area ref="scrollArea" style="width: 100%; height: 800px">
         <div style="font-size: 50px">
           {{ text }}
         </div>
@@ -81,14 +81,13 @@ export default {
       const height = this.$refs.scrollArea.$el.querySelector("div")
         .scrollHeight;
 
+      let scrollAreaDivRef = this.$refs.scrollArea?.$el.querySelector("div");
       this.currentScrollLocation = this.$refs.scrollArea.scrollPosition;
 
       this.scrollTimeInterval = setInterval(() => {
-        this.$refs.scrollArea?.$el
-          .querySelector("div")
-          .scrollTo(0, this.currentScrollLocation);
-        this.currentScrollLocation =
-          this.currentScrollLocation + this.scrollSpeed;
+        scrollAreaDivRef.scrollTo(0, this.currentScrollLocation);
+
+        this.currentScrollLocation += this.scrollSpeed;
 
         if (this.currentScrollLocation > height) {
           this.stopScrolling();
@@ -98,6 +97,7 @@ export default {
     stopScrolling() {
       this.isScrollStarted = false;
       clearInterval(this.scrollTimeInterval);
+      // scrollAreaDivRef.scrollTop(0);
     },
     decreaseScrollSpeed() {
       if (
