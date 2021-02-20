@@ -14,8 +14,9 @@
         class="q-mx-lg"
         color="primary"
         size="lg"
-        label="Slow"
+        label="Slower"
         @click="decreaseScrollSpeed"
+        icon="arrow_circle_down"
       />
       <q-btn
         v-if="!isScrollStarted"
@@ -35,8 +36,9 @@
         class="q-mx-lg"
         color="primary"
         size="lg"
-        label="Fast"
+        label="Faster"
         @click="increaseScrollSpeed"
+        icon-right="arrow_circle_up"
       />
     </div>
     <div class="row">
