@@ -57,14 +57,40 @@ export default {
   data() {
     return {
       text: text,
-      isScrollStarted: false
+      isScrollStarted: false,
+      scrollSpeed: 0.2,
+      scrollSpeedIncrement: 0.1,
+      currentScrollLocation: 1,
+      scrollIntervalTimeMs: 1,
+      scrollTimeInterval: null
     };
   },
   methods: {
-    startScrolling() {},
-    stopScrolling() {},
-    decreaseScrollSpeed() {},
-    increaseScrollSpeed() {}
+    startScrolling() {
+      this.isScrollStarted = true;
+      const height = this.$refs.scrollArea.$el.querySelector("div")
+        .scrollHeight;
+
+      this.currentScrollLocation = this.$refs.scrollArea.scrollPosition;
+
+      this.scrollTimeInterval = setInterval(() => {},
+      this.scrollIntervalTimeMs);
+    },
+    stopScrolling() {
+      this.isScrollStarted = false;
+      clearInterval(this.scrollTimeInterval);
+    },
+    decreaseScrollSpeed() {
+      if (
+        this.scrollSpeed > 0 &&
+        this.scrollSpeed - this.scrollSpeedIncrement > 0
+      ) {
+        this.scrollSpeed -= this.scrollSpeedIncrement;
+      }
+    },
+    increaseScrollSpeed() {
+      this.scrollSpeed += this.scrollSpeedIncrement;
+    }
   }
 };
 </script>
